@@ -1,0 +1,90 @@
+from tkinter import *
+
+# hardcoded weather data
+
+weather_data = {
+            "London": {
+                "conditions": "Cloudy",
+                "temperature": "10°C",
+                "wind_speed": "12 km/h",
+                "humidity": "81%"
+        },
+            "Tokyo": {
+                "conditions": "Cloudy",
+                "temperature": "11°C",
+                "wind_speed": "17 km/h",
+                "humidity": "56%"
+        },
+            "Paris": {
+                "conditions": "Foggy",
+                "temperature": "11°C",
+                "wind_speed": "11 km/h",
+                "humidity": "83%"
+        },
+            "Toronto": {
+                "conditions": "Sunny",
+                "temperature": "13°C",
+                "wind_speed": "12 km/h",
+                "humidity": "47%"
+        },
+            "Sydney": {
+                "conditions": "Cloudy",
+                "temperature": "18°C",
+                "wind_speed": "9 km/h",
+                "humidity": "86%"
+            }
+        }
+
+
+#User input - city name
+def user_input():
+    city_label = Label(root, text="Please enter city name: ")
+    city_label.pack()
+
+    city_name = Entry(root)
+    city_name.pack()
+
+    button = Button(root, text="Submit", command=lambda: display(city_name.get()))
+    button.pack()
+    return city_name
+
+#displaying the weather data in a readable manner
+def display(city_name):
+    city = city_name.capitalize()
+
+    # Clearing previous widgets
+
+    for widgets in result_frame.winfo_children():
+        widgets.destroy()
+
+    try: 
+        city_weather = weather_data[city]
+        conditions = city_weather["conditions"]
+        temp = city_weather["temperature"]
+        wind = city_weather["wind_speed"]
+        humid = city_weather["humidity"]
+
+        result = Label(result_frame, text=f"The weather for {city} is: \nConditions: {conditions} \nTemperature: {temp} \nWind Speed{wind} \nHumidity: {humid}")
+        result.pack(pady=20)
+    except KeyError:
+        error = Label(result_frame, text="Error: Data not available or invalid entry")
+        error.pack(pady=20)
+
+
+# Setting up GUI
+
+root = Tk()
+
+root.geometry("420x420")
+root.title("Weather App")
+icon = PhotoImage(file="D:\SD Bootcamp\Python Projects\WEATHER APP\weather_icon.png")
+root.iconphoto(True, icon)
+
+result_frame = Frame(root)
+result_frame.pack(pady=20, side=BOTTOM)
+
+
+user_input()
+
+root.mainloop()
+
